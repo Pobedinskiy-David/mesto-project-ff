@@ -40,9 +40,6 @@ module.exports = (env = {}, argv = {}) => {
 			hot: true,
 			historyApiFallback: true,
 			allowedHosts: 'all',
-			open: {
-				target: ['https://pda.moscow:8080'],
-			},
 		},
 
 		module: {
