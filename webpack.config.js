@@ -29,12 +29,20 @@ module.exports = (env = {}, argv = {}) => {
 
 		devtool: isDev ? 'inline-source-map' : 'source-map',
 		devServer: {
-			static: { directory: path.resolve(__dirname, 'dist') },
+			static: {
+				directory: path.resolve(__dirname, 'dist'),
+				watch: true,
+			},
+
+			host: '0.0.0.0',
 			port: 8080,
 			compress: true,
 			hot: true,
-			open: true,
 			historyApiFallback: true,
+			allowedHosts: 'all',
+			open: {
+				target: ['https://pda.moscow:8080'],
+			},
 		},
 
 		module: {

@@ -1,12 +1,37 @@
+.profile__image-cover {
+  position: relative;
+  cursor: pointer;
+  margin: 0 29px 0 0;
+  border-radius: 50%;
+}
+
+.profile__image-cover:hover .profile__image-overlay {
+  visibility: initial;
+  opacity: 1;
+  transition: visibility 0.4s, opacity 0.4s;
+}
+
 .profile__image {
   width: 120px;
   height: 120px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
+  border-radius: inherit;
   background-size: cover;
   background-position: center;
-  margin: 0 29px 0 0;
+}
+
+.profile__image-overlay {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: inherit;
+  background-color: rgba(0, 0, 0, 0.8);
+  background-image: url(../../../images/edit-icon.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 26px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.4s, opacity 0.4s;
 }
 
 @media screen and (max-width: 740px) {

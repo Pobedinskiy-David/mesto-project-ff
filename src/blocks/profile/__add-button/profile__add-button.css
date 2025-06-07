@@ -12,6 +12,7 @@
   -ms-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
+  transition-property: border-color, opacity;
   cursor: pointer;
   margin-left: auto;
 }

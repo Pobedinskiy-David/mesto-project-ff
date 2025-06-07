@@ -22,7 +22,7 @@
 		"clean": "rimraf dist",
 		"prebuild": "npm run clean",
 		"start": "webpack serve --mode development",
-		"dev": "webpack --mode development --watch",
+		"dev": "webpack serve --config webpack.config.js --mode development",
 		"build": "webpack --mode production",
 		"analyze": "webpack --profile --json > stats.json && npx webpack-bundle-analyzer stats.json",
 		"format": "prettier --write \"**/*.{js,vue,html,jsx,scss,json,ts,tsx}\"",
