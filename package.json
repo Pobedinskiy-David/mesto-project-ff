@@ -7,11 +7,11 @@
 	"private": false,
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Pobedinskiy-David/mesto-project-ff.git"
+		"url": "git+https://github.com/pobedinskiy-david/mesto-project-ff.git"
 	},
-	"homepage": "https://<USERNAME>.github.io/mesto-project-ff/",
+	"homepage": "https://pobedinskiy-david.github.io/mesto-project-ff/",
 	"bugs": {
-		"url": "https://github.com/<USERNAME>/mesto-project-ff/issues"
+		"url": "https://github.com/pobedinskiy-david/mesto-project-ff/issues"
 	},
 	"main": "dist/js/main.js",
 	"engines": {

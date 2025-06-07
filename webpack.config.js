@@ -23,7 +23,7 @@ module.exports = (env = {}, argv = {}) => {
 			path: path.resolve(__dirname, 'dist'),
 			filename: isProd ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
 			assetModuleFilename: 'assets/[hash][ext][query]',
-			publicPath: '/',
+			publicPath: '/mesto-project-ff/',
 			clean: true,
 		},
 
