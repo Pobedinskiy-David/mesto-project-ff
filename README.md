@@ -1,6 +1,11 @@
 # Проектная работа Mesto
 
-Ссылка на [модуль 3](https://Pobedinskiy-David.github.io/mesto-project-ff/).
+Ссылка на [github-pages](https://Pobedinskiy-David.github.io/mesto-project-ff/) (модуль 3).
+
+**Ссылки на ветки**
+- [Модуль 1](https://github.com/Pobedinskiy-David/mesto-project-ff/tree/module-1);
+- [Модуль 2](https://github.com/Pobedinskiy-David/mesto-project-ff/tree/module-2);
+- [Модуль 3](https://github.com/Pobedinskiy-David/mesto-project-ff/tree/module-3);
 
 ### Комментарии
 
