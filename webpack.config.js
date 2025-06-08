@@ -4,15 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const dotenv = require('dotenv');
 
 module.exports = (env = {}, argv = {}) => {
 	const isProd = argv.mode === 'production';
 	const isDev = !isProd;
-
-	const envFile = `.env.${isProd ? 'prod' : 'dev'}`;
-	const envParsed = dotenv.config({ path: envFile }).parsed || {};
-	const envKeys = Object.fromEntries(Object.entries(envParsed).map(([k, v]) => [`process.env.${k}`, JSON.stringify(v)]));
 
 	return {
 		target: 'browserslist',
@@ -23,7 +18,7 @@ module.exports = (env = {}, argv = {}) => {
 			path: path.resolve(__dirname, 'dist'),
 			filename: isProd ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
 			assetModuleFilename: 'assets/[hash][ext][query]',
-			publicPath: '/mesto-project-ff/',
+			publicPath: '/',
 			clean: true,
 		},
 
@@ -88,7 +83,6 @@ module.exports = (env = {}, argv = {}) => {
 		},
 
 		plugins: [
-			new webpack.DefinePlugin(envKeys),
 			new HtmlWebpackPlugin({
 				template: path.resolve(__dirname, 'src/index.html'),
 				inject: 'body',
