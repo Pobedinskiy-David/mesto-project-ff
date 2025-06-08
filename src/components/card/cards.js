@@ -1,4 +1,4 @@
-import { deleteLike, addLike, deleteCard } from '../../scripts/api';
+import { deleteLike, addLike, deleteCard } from '../../scripts/store';
 
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -39,22 +39,13 @@ export function createCard({ name, link, likes, owner, _id }, currentUserId, rem
 export function likeCard(button, likeCounter, cardId) {
 	const likeMethod = button.classList.contains('card__like-button_is-active') ? deleteLike : addLike;
 
-	likeMethod(cardId)
-		.then(({ likes }) => {
-			button.classList.toggle('card__like-button_is-active');
-			likeCounter.textContent = likes.length;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	const card = likeMethod(cardId);
+
+	button.classList.toggle('card__like-button_is-active');
+	likeCounter.textContent = String(card.likes.length);
 }
 
 export function removeCard(card, cardId) {
-	deleteCard(cardId)
-		.then(() => {
-			card.remove();
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	deleteCard(cardId);
+	card.remove();
 }

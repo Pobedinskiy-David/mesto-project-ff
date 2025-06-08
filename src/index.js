@@ -13,8 +13,7 @@ import {
 	profileImagePopup,
 } from './components/modal/constants';
 import { cardsList } from './components/card/constants';
-import { editProfile, getInitialInfo, postCard, updateAvatar } from './scripts/api';
-import { clearValidation, enableValidation, validationConfig } from './scripts/validation';
+import { editProfile, getInitialInfo, postCard, updateAvatar } from './scripts/store';
 import { patchSubmitButtonLoadingState as toggleLoading } from './scripts/utils';
 //#endregion
 
@@ -43,17 +42,16 @@ const avatarInput = avatarForm.querySelector('.popup__input_type_url');
 
 profileAvatarBtn.addEventListener('click', () => {
 	avatarForm.reset();
-	clearValidation(avatarForm, validationConfig);
 	handleOpenModal(profileImagePopup);
 });
 
-avatarForm.addEventListener('submit', async (e) => {
+avatarForm.addEventListener('submit', (e) => {
 	e.preventDefault();
-	const submitBtn = profileImagePopup.querySelector(validationConfig.submitButtonSelector);
+	const submitBtn = avatarForm.querySelector('button[type="submit"]');
 
 	try {
 		toggleLoading(true, submitBtn);
-		const { avatar } = await updateAvatar(avatarInput.value);
+		const { avatar } = updateAvatar(avatarInput.value);
 		profileImage.style.backgroundImage = `url('${avatar}')`;
 		handleCloseModal(profileImagePopup);
 	} catch (err) {
@@ -70,19 +68,18 @@ const nameInput = profileForm.querySelector('.popup__input_type_name');
 const jobInput = profileForm.querySelector('.popup__input_type_description');
 
 profileEditBtn.addEventListener('click', () => {
-	clearValidation(profileForm, validationConfig);
 	nameInput.value = profileTitle.textContent;
 	jobInput.value = profileDescription.textContent;
 	handleOpenModal(popupEditProfile);
 });
 
-profileForm.addEventListener('submit', async (e) => {
+profileForm.addEventListener('submit', (e) => {
 	e.preventDefault();
-	const submitBtn = popupEditProfile.querySelector(validationConfig.submitButtonSelector);
+	const submitBtn = profileForm.querySelector('button[type="submit"]');
 
 	try {
 		toggleLoading(true, submitBtn);
-		const { name, about } = await editProfile(nameInput.value, jobInput.value);
+		const { name, about } = editProfile(nameInput.value, jobInput.value);
 		profileTitle.textContent = name;
 		profileDescription.textContent = about;
 		handleCloseModal(popupEditProfile);
@@ -102,17 +99,16 @@ const cardLinkIn = addCardForm.querySelector('.popup__input_type_url');
 
 addCardBtn.addEventListener('click', () => {
 	addCardForm.reset();
-	clearValidation(addCardForm, validationConfig);
 	handleOpenModal(addCardPopup);
 });
 
-addCardForm.addEventListener('submit', async (e) => {
+addCardForm.addEventListener('submit', (e) => {
 	e.preventDefault();
-	const submitBtn = addCardPopup.querySelector(validationConfig.submitButtonSelector);
+	const submitBtn = addCardForm.querySelector('button[type="submit"]');
 
 	try {
 		toggleLoading(true, submitBtn);
-		const cardData = await postCard(cardNameIn.value, cardLinkIn.value);
+		const cardData = postCard(cardNameIn.value, cardLinkIn.value);
 		prependCard(createCard(cardData, currentUserId, removeCard, likeCard, () => openImageModal(cardData.link, cardData.name)));
 		handleCloseModal(addCardPopup);
 	} catch (err) {
@@ -138,9 +134,9 @@ export const appendCard = (card) => cardsList.append(card);
 //#endregion
 
 //#region App init
-(async () => {
+(() => {
 	try {
-		const [user, cards] = await getInitialInfo();
+		const [user, cards] = getInitialInfo();
 		currentUserId = user._id;
 
 		profileTitle.textContent = user.name;
@@ -152,6 +148,4 @@ export const appendCard = (card) => cardsList.append(card);
 		console.error(err);
 	}
 })();
-
-enableValidation(validationConfig);
 //#endregion
