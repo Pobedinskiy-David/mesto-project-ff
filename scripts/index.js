@@ -1,70 +1,31 @@
-//#region Cards
-
-const cardTemplate = document.querySelector('#card-template').content;
+const cardTemplate = document.querySelector('#card-template');
+if (!cardTemplate) throw new Error('Template not found: #card-template');
 
 const cardsList = document.querySelector('.places__list');
+if (!cardsList) throw new Error('Container not found: .places__list');
 
-function createCard({ name, link, likes, owner, _id }, currentUserId, removeCb, likeCb, openModalCb) {
-	const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
-	const isLiked = likes.some(({ _id }) => _id === currentUserId);
+function createCard({ name, link }) {
+	const card = cardTemplate.content.querySelector('.places__item').cloneNode(true);
+	const image = card.querySelector('.card__image');
+	const title = card.querySelector('.card__title');
+	const deleteButton = card.querySelector('.card__delete-button');
 
-	const cardImage = cardElement.querySelector('.card__image');
-	const cardLikeButton = cardElement.querySelector('.card__like-button');
-	const cardDeleteButton = cardElement.querySelector('.card__delete-button');
-	const likesCountContainer = cardElement.querySelector('.card__like-count');
+	image.src = link;
+	image.alt = name;
+	title.textContent = name;
+	deleteButton.addEventListener('click', () => card.remove());
 
-	likesCountContainer.textContent = likes.length;
-
-	cardImage.src = link;
-	cardImage.alt = name;
-	cardImage.addEventListener('click', openModalCb);
-
-	if (isLiked) {
-		cardLikeButton.classList.add('card__like-button_is-active');
-	}
-
-	cardLikeButton.addEventListener('click', () => likeCb(cardLikeButton, likesCountContainer, _id));
-
-	cardElement.querySelector('.card__title').textContent = name;
-
-	if (owner._id !== currentUserId) {
-		cardDeleteButton.remove();
-	} else {
-		cardDeleteButton.addEventListener('click', () => {
-			removeCb(cardElement, _id);
-		});
-	}
-
-	return cardElement;
+	return card;
 }
 
-function removeCard(card, cardId) {
-	deleteCard(cardId)
-		.then(() => {
-			card.remove();
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+function appendCard(card) {
+	cardsList.append(card);
 }
 
-//#endregion
-
-//#region App init
 (async () => {
 	try {
-		const [user, cards] = await getInitialInfo();
-		currentUserId = user._id;
-
-		profileTitle.textContent = user.name;
-		profileDescription.textContent = user.about;
-		profileImage.style.backgroundImage = `url('${user.avatar}')`;
-
-		cards.forEach((c) => appendCard(createCard(c, currentUserId, removeCard, likeCard, () => openImageModal(c.link, c.name))));
+		initialCards.forEach((cardData) => appendCard(createCard(cardData)));
 	} catch (err) {
 		console.error(err);
 	}
 })();
-
-enableValidation(validationConfig);
-//#endregion
