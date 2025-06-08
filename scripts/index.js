@@ -1,8 +1,14 @@
-import { deleteLike, addLike, deleteCard } from '../../scripts/api';
+//#region Imports
+import './pages/index.css';
+//#endregion
+
+//#region Cards
 
 const cardTemplate = document.querySelector('#card-template').content;
 
-export function createCard({ name, link, likes, owner, _id }, currentUserId, removeCb, likeCb, openModalCb) {
+const cardsList = document.querySelector('.places__list');
+
+function createCard({ name, link, likes, owner, _id }, currentUserId, removeCb, likeCb, openModalCb) {
 	const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
 	const isLiked = likes.some(({ _id }) => _id === currentUserId);
 
@@ -36,20 +42,7 @@ export function createCard({ name, link, likes, owner, _id }, currentUserId, rem
 	return cardElement;
 }
 
-export function likeCard(button, likeCounter, cardId) {
-	const likeMethod = button.classList.contains('card__like-button_is-active') ? deleteLike : addLike;
-
-	likeMethod(cardId)
-		.then(({ likes }) => {
-			button.classList.toggle('card__like-button_is-active');
-			likeCounter.textContent = likes.length;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-}
-
-export function removeCard(card, cardId) {
+function removeCard(card, cardId) {
 	deleteCard(cardId)
 		.then(() => {
 			card.remove();
@@ -58,3 +51,24 @@ export function removeCard(card, cardId) {
 			console.log(error);
 		});
 }
+
+//#endregion
+
+//#region App init
+(async () => {
+	try {
+		const [user, cards] = await getInitialInfo();
+		currentUserId = user._id;
+
+		profileTitle.textContent = user.name;
+		profileDescription.textContent = user.about;
+		profileImage.style.backgroundImage = `url('${user.avatar}')`;
+
+		cards.forEach((c) => appendCard(createCard(c, currentUserId, removeCard, likeCard, () => openImageModal(c.link, c.name))));
+	} catch (err) {
+		console.error(err);
+	}
+})();
+
+enableValidation(validationConfig);
+//#endregion
