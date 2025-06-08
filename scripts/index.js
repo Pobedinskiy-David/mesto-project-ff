@@ -1,7 +1,3 @@
-//#region Imports
-import './pages/index.css';
-//#endregion
-
 //#region Cards
 
 const cardTemplate = document.querySelector('#card-template').content;
